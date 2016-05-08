@@ -7,8 +7,8 @@ import time
 import os
 
 # Source directory
-#source_directory = '/cbio/jclab/projects/fah/fah-data/munged-with-time/no-solvent/11406' # CK2
-source_directory = '11406' # CK2
+source_directory = '/cbio/jclab/projects/fah/fah-data/munged3/no-solvent/11406' # CK2
+#source_directory = '11406' # CK2
 
 ################################################################################
 # Load reference topology
@@ -44,7 +44,7 @@ print("There are %d frames total in %d trajectories." % (coordinates_source.n_fr
 ################################################################################
 
 print('Clustering...')
-generator_ratio = 200
+generator_ratio = 100
 nframes = coordinates_source.n_frames_total()
 nstates = int(nframes / generator_ratio)
 stride = 1

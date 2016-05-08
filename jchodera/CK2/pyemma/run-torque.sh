@@ -3,7 +3,7 @@
 #
 #
 # walltime : maximum wall clock time (hh:mm:ss)
-#PBS -l walltime=120:00:00
+#PBS -l walltime=16:00:00
 #
 # join stdout and stderr
 #PBS -j oe
