@@ -44,7 +44,7 @@ print("There are %d frames total in %d trajectories." % (coordinates_source.n_fr
 ################################################################################
 
 print('Clustering...')
-generator_ratio = 100
+generator_ratio = 500
 nframes = coordinates_source.n_frames_total()
 nstates = int(nframes / generator_ratio)
 stride = 1

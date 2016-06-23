@@ -16,7 +16,7 @@
 #
 # nodes: number of nodes
 #   ppn: how many cores per node to use
-#PBS -l nodes=1:ppn=32
+#PBS -l nodes=1:ppn=16
 #
 #PBS -l mem=96G
 #
@@ -36,7 +36,7 @@ rm -rf pyemma.log dtrajs clustercenters.npy
 date
 export MPLBACKEND="agg"
 
-export OMP_NUM_THREADS=32
+export OMP_NUM_THREADS=16
 echo $OMP_NUM_THREADS
 date
 time python cluster.py
