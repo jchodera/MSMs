@@ -27,7 +27,9 @@ traj[0].save_pdb(reference_pdb_filename)
 print('Initializing featurizer...')
 import pyemma.coordinates
 featurizer = pyemma.coordinates.featurizer(reference_pdb_filename)
-featurizer.add_all()
+#featurizer.add_all() # all atoms
+featurizer.add_selection( featurizer.select_Heavy() ) # add heavy atoms
+print('Featurizer has %d features.' % featurizer.dimension())
 
 ################################################################################
 # Define coordinates source
@@ -44,13 +46,14 @@ print("There are %d frames total in %d trajectories." % (coordinates_source.n_fr
 ################################################################################
 
 print('Clustering...')
-generator_ratio = 500
+generator_ratio = 250
 nframes = coordinates_source.n_frames_total()
 nstates = int(nframes / generator_ratio)
 stride = 1
 metric = 'minRMSD'
 initial_time = time.time()
 clustering = pyemma.coordinates.cluster_uniform_time(data=coordinates_source, k=nstates, stride=stride, metric=metric)
+#clustering = pyemma.coordinates.cluster_kmeans(data=coordinates_source, k=nstates, stride=stride, metric=metric, max_iter=10)
 final_time = time.time()
 elapsed_time = final_time - initial_time
 print('Elapsed time %.3f s' % elapsed_time)
