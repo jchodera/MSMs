@@ -18,7 +18,7 @@
 #   ppn: how many cores per node to use
 #PBS -l nodes=1:ppn=16
 #
-#PBS -l mem=96G
+#PBS -l mem=128G
 #
 # export all my environment variables to the job
 ##PBS -V
