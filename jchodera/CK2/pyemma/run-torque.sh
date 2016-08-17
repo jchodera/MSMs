@@ -3,7 +3,7 @@
 #
 #
 # walltime : maximum wall clock time (hh:mm:ss)
-#PBS -l walltime=16:00:00
+#PBS -l walltime=48:00:00
 #
 # join stdout and stderr
 #PBS -j oe
@@ -16,7 +16,7 @@
 #
 # nodes: number of nodes
 #   ppn: how many cores per node to use
-#PBS -l nodes=1:ppn=16
+#PBS -l nodes=1:ppn=8
 #
 #PBS -l mem=128G
 #
@@ -36,7 +36,7 @@ rm -rf pyemma.log dtrajs clustercenters.npy
 date
 export MPLBACKEND="agg"
 
-export OMP_NUM_THREADS=16
+export OMP_NUM_THREADS=8
 echo $OMP_NUM_THREADS
 date
 time python cluster.py

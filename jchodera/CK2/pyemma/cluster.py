@@ -47,7 +47,7 @@ print("There are %d frames total in %d trajectories." % (coordinates_source.n_fr
 ################################################################################
 
 print('Clustering...')
-generator_ratio = 1000
+generator_ratio = 250
 nframes = coordinates_source.n_frames_total()
 nstates = int(nframes / generator_ratio)
 stride = 1
@@ -80,7 +80,8 @@ from pyemma import msm
 from pyemma import plots
 
 lags = [1,2,5,10,20,50]
-its = msm.its(dtrajs, lags=lags, errors='bayes')
+#its = msm.its(dtrajs, lags=lags, errors='bayes')
+its = msm.its(dtrajs, lags=lags)
 plots.plot_implied_timescales(its)
 
 plt.savefig('plot.pdf')
