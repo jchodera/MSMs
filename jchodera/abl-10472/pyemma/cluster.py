@@ -7,14 +7,14 @@ import time
 import os
 
 # Source directory
-source_directory = '/cbio/jclab/projects/fah/fah-data/munged3/no-solvent/10472' # Abl
+source_directory = '/cbio/jclab/projects/fah/fah-data/munged3/no-solvent/10472' # Abl single
 
 ################################################################################
 # Load reference topology
 ################################################################################
 
 print ('loading reference topology...')
-reference_pdb_filename = 'reference.pdb' # PDB filename to write
+reference_pdb_filename = 'protein.pdb'
 reference_trajectory = os.path.join(source_directory, 'run0-clone0.h5')
 traj = mdtraj.load(reference_trajectory)
 traj[0].save_pdb(reference_pdb_filename)
@@ -25,12 +25,16 @@ traj[0].save_pdb(reference_pdb_filename)
 
 print('Initializing featurizer...')
 import pyemma.coordinates
-featurizer = pyemma.coordinates.featurizer(traj.topology)
-featurizer.add_all()
+featurizer = pyemma.coordinates.featurizer(reference_pdb_filename)
+#featurizer.add_all() # all atoms
+featurizer.add_selection( featurizer.select_Backbone() )
+print('Featurizer has %d features.' % featurizer.dimension())
 
 ################################################################################
 # Define coordinates source
 ################################################################################
+
+nskip = 40 # number of initial frames to skip
 
 import pyemma.coordinates
 from glob import glob
@@ -43,13 +47,15 @@ print("There are %d frames total in %d trajectories." % (coordinates_source.n_fr
 ################################################################################
 
 print('Clustering...')
-generator_ratio = 100
+generator_ratio = 250
 nframes = coordinates_source.n_frames_total()
 nstates = int(nframes / generator_ratio)
 stride = 1
 metric = 'minRMSD'
 initial_time = time.time()
 clustering = pyemma.coordinates.cluster_uniform_time(data=coordinates_source, k=nstates, stride=stride, metric=metric)
+#clustering = pyemma.coordinates.cluster_kmeans(data=coordinates_source, k=nstates, stride=stride, metric=metric, max_iter=10)
+#clustering = pyemma.coordinates.cluster_mini_batch_kmeans(data=coordinates_source, batch_size=0.1, k=nstates, stride=stride, metric=metric, max_iter=10)
 final_time = time.time()
 elapsed_time = final_time - initial_time
 print('Elapsed time %.3f s' % elapsed_time)
@@ -74,7 +80,8 @@ from pyemma import msm
 from pyemma import plots
 
 lags = [1,2,5,10,20,50]
-its = msm.its(dtrajs, lags=lags, errors='bayes')
+#its = msm.its(dtrajs, lags=lags, errors='bayes')
+its = msm.its(dtrajs, lags=lags)
 plots.plot_implied_timescales(its)
 
 plt.savefig('plot.pdf')

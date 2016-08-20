@@ -24,7 +24,7 @@
 ##PBS -V
 #
 # job name (default = name of script file)
-#PBS -N cluster-abl-11400
+#PBS -N msm-abl-ensembler
 
 if [ -n "$PBS_O_WORKDIR" ]; then 
     cd $PBS_O_WORKDIR
